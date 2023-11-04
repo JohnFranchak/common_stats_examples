@@ -30,6 +30,9 @@ ds %>% t_test(sittingp ~ sitter)
 
 ggboxplot(ds, x = "sitter", y = "sittingp", add = "jitter") + stat_compare_means(method = "t.test")
 
+ggerrorplot(ds, x = "sitter", y = "sittingp", error.plot = "errorbar", add = "mean",
+            desc_stat = "mean_sd", color = "black") + stat_compare_means(method = "t.test")
+
 ds %>% t_test(sittingp ~ age_group)
 ds %>% t_test(sittingp ~ age_group, ref.group = "3")
 
@@ -44,6 +47,7 @@ ds %>% emmeans_test(sittingp ~ age_group)
 ggboxplot(ds, x = "age_group", y = "sittingp", add = "jitter") 
 
 my_comparisons <- list(c("3", "6"), c("6", "9"), c("9", "12") )
+
 ggboxplot(ds, x = "age_group", y = "sittingp", add = "jitter") +
   stat_compare_means(method = "anova", label.y = .75) + 
   stat_compare_means(comparisons = my_comparisons, method = "t.test",label.y = c(.4, .6, .7))
@@ -53,6 +57,12 @@ ggboxplot(ds, x = "age_group", y = "sittingp", add = "jitter") +
   stat_compare_means(aes(label = after_stat(p.signif)), method = "t.test",
                          comparisons = my_comparisons, label.y = c(.4, .6, .7))
 
+my_comparisons <- list(c("3", "6"),c("6", "9"), c("9", "12"), c("3", "9"),  c("6", "12"),  c("3", "12") )
+ggerrorplot(ds, x = "age_group", y = "sittingp", error.plot = "errorbar", add = "mean",
+            desc_stat = "mean_sd", color = "black") + 
+  stat_compare_means(method = "anova", label.y = .75) + 
+  stat_compare_means(aes(label = after_stat(p.signif)), method = "t.test",
+                     comparisons = my_comparisons, label.y = c(.25, .45, .49, .56, .62, .68))
 
 # Regression
 res <- lm(sittingp ~ age, data = ds)
