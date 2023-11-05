@@ -62,7 +62,7 @@ ggerrorplot(ds, x = "age_group", y = "sittingp", error.plot = "errorbar", add = 
             desc_stat = "mean_sd", color = "black") + 
   stat_compare_means(method = "anova", label.y = .75) + 
   stat_compare_means(aes(label = after_stat(p.signif)), method = "t.test",
-                     comparisons = my_comparisons, label.y = c(.25, .45, .49, .56, .62, .68))
+                     comparisons = my_comparisons, label.y = c(.25, .44, .50, .56, .62, .68))
 
 # Regression
 res <- lm(sittingp ~ age, data = ds)
